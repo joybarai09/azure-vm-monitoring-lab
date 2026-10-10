@@ -1,0 +1,20 @@
+# Secrets and local files
+.env
+.env.*
+*.pem
+*.key
+id_rsa
+id_ed25519
+*.pfx
+*.p12
+*.tfstate
+*.tfstate.*
+.terraform/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Raw exports may contain identifiers or configuration secrets
+*.json
+!example*.json
+*.csv
