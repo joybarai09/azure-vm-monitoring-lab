@@ -1,0 +1,22 @@
+// Starter queries for a Log Analytics workspace.
+// These queries return results only if the corresponding tables and data are being collected.
+// Use the workspace Logs experience to confirm table names and schema first.
+
+// Recent Linux syslog events
+Syslog
+| where TimeGenerated > ago(24h)
+| project TimeGenerated, Computer, Facility, SeverityLevel, ProcessName, SyslogMessage
+| order by TimeGenerated desc
+| take 100
+
+// Recent heartbeat records (if Heartbeat is being collected in this workspace)
+Heartbeat
+| where TimeGenerated > ago(24h)
+| summarize LastHeartbeat=max(TimeGenerated) by Computer
+| order by LastHeartbeat desc
+
+// Recent performance records (if Perf is populated by the configured collection path)
+Perf
+| where TimeGenerated > ago(24h)
+| summarize Samples=count(), LatestSample=max(TimeGenerated) by Computer, ObjectName, CounterName, InstanceName
+| order by LatestSample desc
